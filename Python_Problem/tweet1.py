@@ -1,3 +1,4 @@
+import sys
 import json
 import requests
 from requests_oauthlib import OAuth1
@@ -11,11 +12,13 @@ def save_data_into_file(data):
 
 def get_json_data(user_handle, URL, no_of_tweets, auth):
 
-    URL = URL + "?screen_name={}&tweet_mode=extended&count={}".format(user_handle, no_of_tweets)
+    URL = URL + \
+        "?screen_name={}&tweet_mode=extended&count={}".format(
+            user_handle, no_of_tweets)
 
     try:
         response = requests.get(URL, auth=auth)
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         print('No internet connection')
         sys.exit(1)
 
@@ -30,7 +33,7 @@ def get_count_of_tweet(user_handle, URL, auth):
 
     try:
         response = requests.get(URL, auth=auth)
-    except requests.exceptions.RequestException as e:
+    except requests.exceptions.RequestException:
         print('No internet connection')
         sys.exit(1)
 
@@ -53,10 +56,10 @@ def get_authenticated():
 
 
 def main():
-    
+
     user_handle = "midasIIITD"
     URL = 'https://api.twitter.com/1.1/statuses/user_timeline.json'
-   
+
     auth = get_authenticated()
     no_of_tweets = get_count_of_tweet(user_handle, URL, auth)
     data = get_json_data(user_handle, URL, no_of_tweets, auth)
